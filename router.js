@@ -10,7 +10,7 @@ const bcrypt = require("bcrypt");
 const { error } = require("console");
 
 mongoose.set("strictQuery", false);
-mongoose.connect("mongodb+srv://MONGO:8896483413@atlascluster.ofjjvzm.mongodb.net/?retryWrites=true&w=majority");
+mongoose.connect("mongodb+srv://MONGO:8896483413@atlascluster.ofjjvzm.mongodb.net/shopDB");
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
