@@ -1,0 +1,71 @@
+
+        let trimmedKeys = (data[i][Object.keys(data[i])[6]] + "").trim(); // stores if the bill was made in cash or not.
+        let trimmedSNo = (data[i][Object.keys(data[i])[0]] + "").trim();  // stores the serial number
+        let c = 0;
+        if (trimmedSNo.length !== 0) {                                       // there are cases in excel sheets that dates are given between the data so it is necessary to remove them and since that line does not have any serial number , so, we use this line of code.
+            if (trimmedKeys.length === 0) {                                  // confirming if the bill was made in credit.
+
+                for (let j = 0; j < dataObj.length; j++) {                       // this loop iterates over the dataObj array inside which we are storing our data
+                    if (dataObj.length > 0) {
+                        if (dataObj[j]["partyCode"] === data[i][Object.keys(data[i])[3]]) {                          // this  checks if the party already existed or not
+                            const found = linearSearch(dataObj[j]["bills"], data[i][Object.keys(data[i])[1]], "billNumber")   // this checks if the bill is already present or not
+                            if (found === false) {                                                                   // if the bill is not present then it will add that bill
+                                (dataObj[j]["bills"]).push({
+                                    billNumber: data[i][Object.keys(data[i])[1]],
+                                    billDate: data[i][Object.keys(data[i])[2]],
+                                    billAmount: data[i][Object.keys(data[i])[7]],
+                                    billMR: data[i][Object.keys(data[i])[5]]
+                                });
+                                dataObj[j]["totalAmount"] += data[i][Object.keys(data[i])[7]];                   // counts for total amount of the party.
+                                dataObj[j]["totalBills"] += 1;                                                   // counts for total number of bills of the party.   
+                                c = c + 1;                                                                           // it helps us check if the party is new or it already exists
+                            }
+
+
+                        }
+                    }
+                }
+                if (c === 0) {                                                                                       // this peice of code checks the value of c , if it is 0 then it means party is new , and hence creates a new account and stores the bill in it.    
+
+
+
+                    let partyDetails = {
+                        partyCode: data[i][Object.keys(data[i])[3]],
+                        partyName: data[i][Object.keys(data[i])[4]],
+                        bills: [{
+                            billNumber: data[i][Object.keys(data[i])[1]],
+                            billDate: data[i][Object.keys(data[i])[2]],
+                            billAmount: data[i][Object.keys(data[i])[7]],
+                            billMR: data[i][Object.keys(data[i])[5]]
+                        }],
+                        totalAmount: data[i][Object.keys(data[i])[7]],
+                        totalBills: 1
+
+                    }
+                    dataObj.push(partyDetails);
+
+                }
+
+                if ((data[i][Object.keys(data[i])[5]]).trim() === "AMIT GUPTA") {
+                    const obj = {
+                        billNumber: data[i][Object.keys(data[i])[1]]
+                    }
+                    const a = await mrModel.find({})
+                    // console.log(a);
+                    if(a.length === 0){
+                        const item  = new mrModel({
+                            amitGupta:obj
+                        })
+                        item.save();
+                    }
+                    else{
+                        mrModel.updateOne({
+                            
+                        })
+                    }
+
+                }
+
+            }
+
+        }
