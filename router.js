@@ -11,8 +11,7 @@ const { error } = require("console");
 const ObjectId = mongoose.Types.ObjectId;
 
 mongoose.set("strictQuery", false);
-// mongoose.connect("mongodb+srv://MONGO:8896483413@atlascluster.ofjjvzm.mongodb.net/shopDB");
-mongoose.connect("mongodb://127.0.0.1/shopDB");
+mongoose.connect("mongodb+srv://MONGO:8896483413@atlascluster.ofjjvzm.mongodb.net/shopDB");
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
