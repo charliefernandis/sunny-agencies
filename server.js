@@ -21,7 +21,9 @@ app.get("/" , function(req,res){
 })
 
 
-
+app.get("/dataforanalysis" , function(req,res){
+    res.render("dataforanalysis" , {});
+})
 
 
 
